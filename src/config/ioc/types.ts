@@ -10,4 +10,5 @@ export const TYPES = {
     CreateUserService: Symbol.for("CreateUserService"),
     UpdateUserService: Symbol.for("UpdateUserService"),
     CreateReportService: Symbol.for("CreateReportService"),
+    UpdateReportService: Symbol.for("UpdateReportService"),
 };

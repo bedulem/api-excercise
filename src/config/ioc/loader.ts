@@ -7,6 +7,9 @@ import "../../controller/user/PutUserController";
 import "../../controller/user/DeleteUserController";
 import "../../controller/report/PostReportController";
 import "../../controller/report/GetReportsController";
+import "../../controller/report/GetReportController";
+import "../../controller/report/PutReportController";
+import "../../controller/report/DeleteReportController";
 
 
 
@@ -21,3 +24,4 @@ import "../../repository/ReportRepository";
 import "../../service/user/CreateUserService";
 import "../../service/user/UpdateUserService";
 import "../../service/report/CreateReportService";
+import "../../service/report/UpdateReportService";

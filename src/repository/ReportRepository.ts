@@ -8,6 +8,8 @@ import { MongoRepository } from "../utils/mongodb/MongoRepository";
 export interface IReportRepository{
     persist(report: Report): Promise<void>;
     findAllReports(userId?: string, dateFrom?: number, dateTo?: number): Promise<Report[]>;
+    findOneById(id: string): Promise<Report | null>;
+    remove(report: Report): Promise<void>;
 }
 
 const collectionName: string = "report";
@@ -23,28 +25,22 @@ export class ReportRepository extends MongoRepository implements IReportReposito
 
     public async findAllReports(userId?: string, dateFrom?: number, dateTo?: number): Promise<Report[]>{
         const filter: {[key: string]: unknown} = {};
-
-        if(userId){
-            filter.userId = userId;
-        }
         if(dateFrom && dateTo){
-            filter.createdAT = $and[{createedAT: {$gte: dateFrom},
-                createdAT: {$lte: dateTo}
-                }]
-
-        }else if(dateFrom){
+            filter.createdAT = {$gte: dateFrom, $lte:dateTo}
+        } else if(dateFrom){
             filter.createdAT = {$gte : dateFrom};
         }else if(dateTo){
             filter.createdAT = {$lte : dateTo};
+        }
+        if(userId){
+            filter.userId = userId;
         }
 
         
         return await this.findBy(filter, null, null, null);
     }
-}
 
-/*find({userId: "asdasdqwe1231",
-        $and[{createedAT: {$gte: 112231},
-            createdAT: {$lte: 1224235}
-            }]
-        }) */
+    public async findOneById(id: string): Promise<Report | null> {
+        return await this.findOneBy<Report>({ id });
+    }
+}
