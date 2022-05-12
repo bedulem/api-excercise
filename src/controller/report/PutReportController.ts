@@ -18,7 +18,7 @@ export class PutReportsController extends BaseHttpController {   @inject(TYPES.R
             return response.status(400).send({error: `Report with id ${request.params.id} not found`});
         }
         if(report.userId != request.body.userId){
-            return response.status(400).send({error: `Sorry! Report with userId ${request.body.UserId} not found`});
+            return response.status(400).send({error: `Sorry! Report with userId ${request.body.userId} not found`});
         }
         await this.updateReportService.update(report, request.body as IUpdateReportDto);
 

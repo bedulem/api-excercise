@@ -19,6 +19,7 @@ export interface ICreateReportService {
 export class CreateReportService implements ICreateReportService {
     private readonly reportRepository: IReportRepository;
 
+
     constructor(@inject(TYPES.ReportRepository) reportRepository: IReportRepository){
         this.reportRepository = reportRepository;
     }

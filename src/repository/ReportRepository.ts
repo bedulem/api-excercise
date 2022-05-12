@@ -26,11 +26,11 @@ export class ReportRepository extends MongoRepository implements IReportReposito
     public async findAllReports(userId?: string, dateFrom?: number, dateTo?: number): Promise<Report[]>{
         const filter: {[key: string]: unknown} = {};
         if(dateFrom && dateTo){
-            filter.createdAT = {$gte: dateFrom, $lte:dateTo}
+            filter.createdAT = { $gte: dateFrom, $lte:dateTo }
         } else if(dateFrom){
-            filter.createdAT = {$gte : dateFrom};
+            filter.createdAT = { $gte : dateFrom };
         }else if(dateTo){
-            filter.createdAT = {$lte : dateTo};
+            filter.createdAT = { $lte : dateTo };
         }
         if(userId){
             filter.userId = userId;
