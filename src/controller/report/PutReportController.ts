@@ -14,12 +14,11 @@ export class PutReportsController extends BaseHttpController {   @inject(TYPES.R
     @httpPut("/:id")
     public async index(@request() request: Request, @response() response: Response): Promise<Response>{
         const report: Report  | null = await this.reportRepository.findOneById(request.params.id);
+
         if(report === null){
-            return response.status(400).send({error: `Report with id ${request.params.id} not found`});
+            return response.status(404).send({error: `User with id ${request.params.id} not found`});
         }
-        if(report.userId != request.body.userId){
-            return response.status(400).send({error: `Sorry! Report with userId ${request.body.userId} not found`});
-        }
+        
         await this.updateReportService.update(report, request.body as IUpdateReportDto);
 
         return response.status(200).send(report);
