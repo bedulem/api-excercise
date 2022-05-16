@@ -4,7 +4,7 @@ import { BaseHttpController, controller, httpGet, request, response } from "inve
 import { TYPES } from "../../config/ioc/types";
 import { Report } from "../../entity/Report";
 import { IReportRepository } from "../../repository/ReportRepository";
-import { getReportsValidator } from "../../validator/getReportsValidator";
+import { getReportsValidator } from "../../validator/report/getReportsValidator";
 
 @controller("/reports")
 export class GetReportsController extends BaseHttpController {

@@ -5,14 +5,14 @@ import { TYPES } from "../../config/ioc/types";
 import { Report } from "../../entity/Report";
 import { IReportRepository } from "../../repository/ReportRepository";
 import { IUpdateReportDto, IUpdateReportService } from "../../service/report/UpdateReportService";
-import { putReportValidator } from "../../validator/putReportValidator";
+import { putReportValidator } from "../../validator/report/putReportValidator";
 
 @controller("/reports")
 export class PutReportsController extends BaseHttpController {
     @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
     @inject(TYPES.UpdateReportService) private readonly updateReportService: IUpdateReportService;
 
-    @httpPut("/:id", ...putReportValidator, TYPES.AuthorizationMiddleware)
+    @httpPut("/:id", TYPES.AuthorizationMiddleware, ...putReportValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const report: Report | null = await this.reportRepository.findOneById(request.params.id);
 

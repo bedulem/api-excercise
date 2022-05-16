@@ -4,7 +4,7 @@ import { BaseHttpController, controller, httpGet, request, response } from "inve
 import { TYPES } from "../../config/ioc/types";
 import { User } from "../../entity/User";
 import { IUserRepository } from "../../repository/UserRepository";
-import { getUserValidator } from "../../validator/getUserValidator";
+import { getUserValidator } from "../../validator/user/getUserValidator";
 
 @controller("/users")
 export class GetUserController extends BaseHttpController {

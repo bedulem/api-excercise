@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import { validatorResponseMiddleware } from "./utils";
+import { validatorResponseMiddleware } from "../utils";
 
 export const postUserValidator = [
     body("email").notEmpty().isEmail(),

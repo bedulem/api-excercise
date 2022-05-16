@@ -4,8 +4,6 @@ import { TYPES } from "../config/ioc/types";
 import { Exception } from "../exception/Exception";
 import { provideSingleton } from "../utils/inversify/CustomProviders";
 
-const token: string = "123456";
-
 @provideSingleton(TYPES.AuthorizationMiddleware)
 export class authorizationMiddleware extends BaseMiddleware {
     public handler(request: Request, response: Response, next: NextFunction): void {
@@ -13,7 +11,7 @@ export class authorizationMiddleware extends BaseMiddleware {
         //     request.body.token = String(request.body.country).toUpperCase();
         // }
 
-        if (request.headers.authorization != token) {
+        if (!request.headers.authorization || request.headers.authorization != process.env.TOKEN) {
             next(new Exception("Invalid Token", 401));
         }
 

@@ -1,5 +1,5 @@
 import { body, param } from "express-validator";
-import { validatorResponseMiddleware } from "./utils";
+import { validatorResponseMiddleware } from "../utils";
 
 export const postReportValidator = [
     body("userId").notEmpty().isUUID(4),

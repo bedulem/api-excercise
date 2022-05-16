@@ -4,13 +4,13 @@ import { BaseHttpController, controller, httpPost, request, response, TYPE } fro
 import { TYPES } from "../../config/ioc/types";
 import { User } from "../../entity/User";
 import { IcreateUserDto, ICreateUserService } from "../../service/user/CreateUserService";
-import { postUserValidator } from "../../validator/postUserValidator";
+import { postUserValidator } from "../../validator/user/postUserValidator";
 
 @controller("/users")
 export class PostUserController extends BaseHttpController {
     @inject(TYPES.CreateUserService) private readonly createUserService: ICreateUserService;
 
-    @httpPost("/", ...postUserValidator, TYPES.AuthorizationMiddleware)
+    @httpPost("/", TYPES.AuthorizationMiddleware, ...postUserValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User = await this.createUserService.create(request.body as IcreateUserDto);
 

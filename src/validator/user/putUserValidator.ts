@@ -1,5 +1,5 @@
 import { body, param } from "express-validator";
-import { validatorResponseMiddleware } from "./utils";
+import { validatorResponseMiddleware } from "../utils";
 
 export const putUserValidator = [
     body("name").isString().isLength({ min: 2, max: 200 }),
