@@ -11,4 +11,7 @@ export const TYPES = {
     UpdateUserService: Symbol.for("UpdateUserService"),
     CreateReportService: Symbol.for("CreateReportService"),
     UpdateReportService: Symbol.for("UpdateReportService"),
+
+    //middleware
+    AuthorizationMiddleware: Symbol.for("AuthorizationMiddleware"),
 };

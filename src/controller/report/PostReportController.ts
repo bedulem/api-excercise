@@ -4,13 +4,15 @@ import { ICreateReportDto, ICreateReportService } from "../../service/report/Cre
 import { BaseHttpController, controller, httpPost, request, response } from "inversify-express-utils";
 import { Request, Response } from "express";
 import { Report } from "../../entity/Report";
+import { postReportValidator } from "../../validator/postReportValidator";
 
-@controller('/reports')
-export class PostReportController extends BaseHttpController {  @inject(TYPES.CreateReportService) private readonly     createReportService: ICreateReportService;
+@controller("/reports")
+export class PostReportController extends BaseHttpController {
+    @inject(TYPES.CreateReportService) private readonly createReportService: ICreateReportService;
 
-    @httpPost("/")
-    public async index(@request() request: Request, @response() response: Response): Promise<Response>{
-        const report: Report = await this.createReportService.create(request.body as ICreateReportDto)
+    @httpPost("/", ...postReportValidator, TYPES.AuthorizationMiddleware)
+    public async index(@request() request: Request, @response() response: Response): Promise<Response> {
+        const report: Report = await this.createReportService.create(request.body as ICreateReportDto);
 
         return response.status(201).send(report);
     }

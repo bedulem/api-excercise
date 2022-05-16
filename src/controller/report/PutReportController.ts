@@ -5,18 +5,19 @@ import { TYPES } from "../../config/ioc/types";
 import { Report } from "../../entity/Report";
 import { IReportRepository } from "../../repository/ReportRepository";
 import { IUpdateReportDto, IUpdateReportService } from "../../service/report/UpdateReportService";
+import { putReportValidator } from "../../validator/putReportValidator";
 
-
-@controller('/reports')
-export class PutReportsController extends BaseHttpController {   @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
+@controller("/reports")
+export class PutReportsController extends BaseHttpController {
+    @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
     @inject(TYPES.UpdateReportService) private readonly updateReportService: IUpdateReportService;
 
-    @httpPut("/:id")
-    public async index(@request() request: Request, @response() response: Response): Promise<Response>{
-        const report: Report  | null = await this.reportRepository.findOneById(request.params.id);
+    @httpPut("/:id", ...putReportValidator, TYPES.AuthorizationMiddleware)
+    public async index(@request() request: Request, @response() response: Response): Promise<Response> {
+        const report: Report | null = await this.reportRepository.findOneById(request.params.id);
 
-        if(report === null){
-            return response.status(404).send({error: `Report with id ${request.params.id} not found`});
+        if (report === null) {
+            return response.status(404).send({ error: `Report with id ${request.params.id} not found` });
         }
 
         await this.updateReportService.update(report, request.body as IUpdateReportDto);

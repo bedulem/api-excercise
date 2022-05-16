@@ -8,13 +8,18 @@ import { IUserRepository } from "../../repository/UserRepository";
 const defaultOffset = 0;
 const defaultLimit = 20;
 
-@controller('/users')
+@controller("/users")
 export class GetUsersController extends BaseHttpController {
-    @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository
+    @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
 
     @httpGet("/")
-    public async index(@request() request: Request, @response() response: Response): Promise<Response>{
-        const users: User[] = await this.userRepository.findAllPaginated(Number(request.query.offset ?? defaultOffset), Number(request.query.limit ?? defaultLimit), Number(request.query.age), request.query.country?.toString())
+    public async index(@request() request: Request, @response() response: Response): Promise<Response> {
+        const users: User[] = await this.userRepository.findAllPaginated(
+            Number(request.query.offset ?? defaultOffset),
+            Number(request.query.limit ?? defaultLimit),
+            Number(request.query.age),
+            request.query.country?.toString()
+        );
 
         return response.status(200).send(users);
     }

@@ -4,17 +4,17 @@ import { BaseHttpController, controller, httpDelete, request, response } from "i
 import { TYPES } from "../../config/ioc/types";
 import { Report } from "../../entity/Report";
 import { IReportRepository } from "../../repository/ReportRepository";
+import { deleteReportValidator } from "../../validator/deleteReportValidator";
 
+@controller("/reports")
+export class DeleteReportController extends BaseHttpController {
+    @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
 
-
-@controller('/reports')
-export class DeleteReportController extends BaseHttpController {   @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
-    
-    @httpDelete("/:id")
-    public async index(@request() request: Request, @response() response: Response): Promise<Response>{
-        const report: Report  | null = await this.reportRepository.findOneById(request.params.id);
-        if(report === null){
-            return response.status(404).send({error: `Report with id ${request.params.id} not found`});
+    @httpDelete("/:id", ...deleteReportValidator, TYPES.AuthorizationMiddleware)
+    public async index(@request() request: Request, @response() response: Response): Promise<Response> {
+        const report: Report | null = await this.reportRepository.findOneById(request.params.id);
+        if (report === null) {
+            return response.status(404).send({ error: `Report with id ${request.params.id} not found` });
         }
 
         await this.reportRepository.remove(report);

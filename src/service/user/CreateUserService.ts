@@ -13,20 +13,20 @@ export interface IcreateUserDto {
 }
 
 export interface ICreateUserService {
-    create(dto: IcreateUserDto): Promise<User>
+    create(dto: IcreateUserDto): Promise<User>;
 }
 
 @provideSingleton(TYPES.CreateUserService)
 export class CreateUserService implements ICreateUserService {
     private readonly userRepository: IUserRepository;
 
-    constructor(@inject(TYPES.UserRepository) userRepository: IUserRepository){
+    constructor(@inject(TYPES.UserRepository) userRepository: IUserRepository) {
         this.userRepository = userRepository;
     }
 
-    public async create({email, name, age, country}: IcreateUserDto): Promise<User> {
-        const timestamp = (Date.now()/1000) | 0;
-        
+    public async create({ email, name, age, country }: IcreateUserDto): Promise<User> {
+        const timestamp = (Date.now() / 1000) | 0;
+
         const user: User = {
             id: uuid(),
             email,
@@ -34,11 +34,11 @@ export class CreateUserService implements ICreateUserService {
             age,
             country,
             createdAT: timestamp,
-            updatedAT: timestamp
+            updatedAT: timestamp,
         };
-        
+
         await this.userRepository.persist(user);
-        
+
         return user;
     }
 }
