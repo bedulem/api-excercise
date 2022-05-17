@@ -1,24 +1,19 @@
 import { NextFunction, Request, Response } from "express";
+import { inject } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
+import { PARAMETERS } from "../config/ioc/parameters";
 import { TYPES } from "../config/ioc/types";
 import { Exception } from "../exception/Exception";
 import { provideSingleton } from "../utils/inversify/CustomProviders";
 
 @provideSingleton(TYPES.AuthorizationMiddleware)
-export class authorizationMiddleware extends BaseMiddleware {
-    public handler(request: Request, response: Response, next: NextFunction): void {
-        // if (request.body.token) {
-        //     request.body.token = String(request.body.country).toUpperCase();
-        // }
+export class AuthorizationMiddleware extends BaseMiddleware {
+    @inject(PARAMETERS.token) private readonly token: string;
 
-        if (!request.headers.authorization || request.headers.authorization != process.env.TOKEN) {
+    public handler(request: Request, response: Response, next: NextFunction): void {
+        if (!request.headers.authorization || request.headers.authorization != this.token) {
             next(new Exception("Invalid Token", 401));
         }
-
-        //  how to throw an error inside a middleware
-        /*if (request.body.country && request.body.country === String(request.body.country).toLocaleLowerCase()) {
-            next(new Exception("Bad country", 400));
-        }*/
 
         next();
     }
